@@ -79,7 +79,7 @@ describe Fitgem::Client do
       date = 200
       expect {
         @client.format_date(date)
-      }.to raise_error Fitgem::InvalidDateArgument, "Date used must be a date/time object or a string in the format YYYY-MM-DD; supplied argument is a Fixnum"
+      }.to raise_error Fitgem::InvalidDateArgument, "Date used must be a date/time object or a string in the format YYYY-MM-DD; supplied argument is a Integer"
     end
   end
 

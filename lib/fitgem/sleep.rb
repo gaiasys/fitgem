@@ -12,6 +12,15 @@ module Fitgem
       get("/user/#{@user_id}/sleep/date/#{format_date(date)}.json")
     end
 
+    # Get sleep data for specified date range
+    #
+    # @param [DateTime, Date, String] start_date
+    # @param [DateTime, Date, String] end_date
+    # @return [Array] List of sleep items for the supplied date range
+    def sleep_on_date_range(start_date, end_date)
+      get("/user/#{@user_id}/sleep/date/#{format_date(start_date)}/#{format_date(end_date)}.json")
+    end
+
     # ==========================================
     #          Sleep Logging Methods
     # ==========================================
