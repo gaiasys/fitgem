@@ -118,6 +118,10 @@ module Fitgem
       @api_version = API_VERSION
       @api_locale = opts[:locale] || Fitgem::ApiLocale.US
     end
+    
+    def get(path, headers={})
+      extract_response_body raw_get(path, headers)
+    end
 
     private
 
@@ -131,10 +135,6 @@ module Fitgem
 
       def access_token
         @access_token ||= OAuth2::AccessToken.new(consumer, @token)
-      end
-
-      def get(path, headers={})
-        extract_response_body raw_get(path, headers)
       end
 
       def raw_get(path, headers={})
