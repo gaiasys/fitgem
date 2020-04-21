@@ -226,6 +226,34 @@ module Fitgem
     end
 
     # ==========================================
+    #      Activity Time Series Methods
+    # =========================================
+
+    # Get time series data in the specified range for sedentary minutes
+    # @param [Date, DateTime, String] base_date
+    # @param [Date, DateTime, String] end_date
+    # @return [Hash]
+    def activities_minutes_sedentary(base_date, end_date)
+      get("/user/#{@user_id}/activities/minutesSedentary/#{format_date(base_date)}/#{format_date(end_date)}")
+    end
+
+    # Get time series data in the specified range for fairly active minutes
+    # @param [Date, DateTime, String] base_date
+    # @param [Date, DateTime, String] end_date
+    # @return [Hash]
+    def activities_minutes_fairly_active(base_date, end_date)
+      get("/user/#{@user_id}/activities/minutesVeryActive/#{format_date(base_date)}/#{format_date(end_date)}")
+    end
+
+    # Get time series data in the specified range for very active minutes
+    # @param [Date, DateTime, String] base_date
+    # @param [Date, DateTime, String] end_date
+    # @return [Hash]
+    def activities_minutes_very_active(base_date, end_date)
+      get("/user/#{@user_id}/activities/minutesFairlyActive/#{format_date(base_date)}/#{format_date(end_date)}")
+    end
+
+    # ==========================================
     #      Intraday Activity Data Methods
     # ==========================================
 

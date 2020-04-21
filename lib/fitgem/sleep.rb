@@ -23,13 +23,11 @@ module Fitgem
 
     # Get sleep data with pagination support
     def sleep_logs(opts)
-      valid_options = [:before_date, :after_date, :sort, :limit, :offset]
+      valid_options = [:beforeDate, :afterDate, :sort, :limit, :offset]
       opts.slice!(*valid_options)
 
-      before_date = opts[:before_date]
-      after_date = opts[:after_date]
-      opts[:before_date] = format_date(before_date) if before_date
-      opts[:after_date] = format_date(after_date) if after_date
+      opts[:beforeDate] = format_date(opts[:beforeDate])
+      opts[:afterDate] = format_date(opts[:beforeDate])
       query = opts.empty? ? '' : "?#{to_query(opts)}"
 
       get("/user/#{@user_id}/sleep/list.json#{query}")
