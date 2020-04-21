@@ -244,15 +244,19 @@ module Fitgem
     # @return [Hash] A hash containing time series data
     def intraday_time_series(opts)
       unless opts[:resource] && [:calories, :steps, :distance, :floors, :elevation].include?(opts[:resource])
-        raise Fitgem::InvalidArgumentError, 'Must specify resource to fetch intraday time series data for. One of (:calories, :steps, :distance, :floors, or :elevation) is required.'
+        raise Fitgem::InvalidArgumentError, 'Must specify resource to fetch intraday time series data for. One of (:calories, :steps, :distance, :floors, :elevation, or :heart) is required.'
       end
 
       unless opts[:date]
         raise Fitgem::InvalidArgumentError, 'Must specify the date to fetch intraday time series data for.'
       end
 
-      unless opts[:detailLevel] && %w(1min 15min).include?(opts[:detailLevel])
+      if !opts[:detailLevel] || opts[:resource] != 'heart' && !%w(1min 15min).include?(opts[:detailLevel])
         raise Fitgem::InvalidArgumentError, 'Must specify the data resolution to fetch intraday time series data for. One of (\"1d\" or \"15min\") is required.'
+      end
+
+      if !opts[:detailLevel] || opts[:resource] == 'heart' && !%w(1sec 1min).include?(opts[:detailLevel])
+        raise Fitgem::InvalidArgumentError, 'Must specify the data resolution to fetch intraday time series data for. One of (\"1sec\" or \"1min\") is required.'
       end
 
       resource = opts.delete(:resource)

@@ -13,32 +13,6 @@ module Fitgem
       get("/user/#{@user_id}/heart/date/#{format_date(date)}.json")
     end
 
-    # Get heart rate log entries for the supplied date range with different detail levels
-    # such as minutes and seconds
-    #
-    # @param [Hash] opts
-    # @option opts [DateTime, Date, String] start_date
-    # @option opts [DateTime, Date, String] end_date
-    # @option opts [String] :detail_level Number of data points to include. Either 1sec or 1min. Optional.
-    # @option opts [String] :start_time The start of the period, in the format HH:mm. Optional.
-    # @option opts [String] :end_time The end of the period, in the format HH:mm. Optional.
-    # @return [Array]
-    def heart_rate_on_intraday(opts)
-      paths = []
-
-      start_date = opts[:start_date]
-      paths << format_date(start_date) if start_date
-      end_date = opts[:end_date]
-      paths << format_date(end_date) if end_date
-      paths << opts[:detail_level] if opts[:detail_level]
-
-      if opts[:start_time] && opts[:end_time]
-        paths << "/time/#{opts[:start_time]}/#{opts[:end_time]}"
-      end
-
-      get("/user/#{@user_id}/heart/date/#{paths.join('/')}.json")
-    end
-
     # ==========================================
     #        Heart Rate Logging Methods
     # ==========================================
