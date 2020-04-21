@@ -60,9 +60,8 @@ module Fitgem
       opts.merge!(offset: 0)
 
       self.api_version = '1.2'
-      query = opts.empty? ? '' : "?#{to_query(opts)}"
 
-      get("/user/#{@user_id}/sleep/list.json#{query}")
+      get("/user/#{@user_id}/sleep/list.json?#{to_query(opts)}")
     end
 
     # ==========================================

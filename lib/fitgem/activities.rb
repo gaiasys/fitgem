@@ -279,7 +279,7 @@ module Fitgem
     #
     # @return [Hash] A hash containing time series data
     def intraday_time_series(opts)
-      unless opts[:resource] && [:calories, :steps, :distance, :floors, :elevation].include?(opts[:resource])
+      unless opts[:resource] && [:calories, :steps, :distance, :floors, :elevation, :heart].include?(opts[:resource])
         raise Fitgem::InvalidArgumentError, 'Must specify resource to fetch intraday time series data for. One of (:calories, :steps, :distance, :floors, :elevation, or :heart) is required.'
       end
 
