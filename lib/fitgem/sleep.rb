@@ -43,14 +43,24 @@ module Fitgem
     # @option opts [Fixnum] limit
     # @return [Hash]
     def sleep_logs(opts)
-      valid_options = [:beforeDate, :afterDate, :sort, :limit]
-      opts.slice!(*valid_options)
+      unless opts[:beforeDate] || opts[:afterDate]
+        raise ArgumentError, 'Must specify either beforeDate or afterDate'
+      end
 
-      opts[:beforeDate] = format_date(opts[:beforeDate])
-      opts[:afterDate] = format_date(opts[:beforeDate])
-      query = opts.empty? ? '' : "?#{to_query(opts)}"
+      unless %w[asc desc].include?(opts[:sort])
+        raise ArgumentError, 'Must specify sort order. One of (\"asc\" or \"desc\") is required.'
+      end
+
+      unless opts[:limit]
+        raise ArgumentError, 'Must specify limit.'
+      end
+
+      opts[:beforeDate] = format_date(opts[:beforeDate]) if opts[:beforeDate]
+      opts[:afterDate] = format_date(opts[:afterDate]) if opts[:afterDate]
+      opts.merge!(offset: 0)
 
       self.api_version = '1.2'
+      query = opts.empty? ? '' : "?#{to_query(opts)}"
 
       get("/user/#{@user_id}/sleep/list.json#{query}")
     end
