@@ -14,21 +14,43 @@ module Fitgem
 
     # Get sleep data for specified date range
     #
-    # @param [DateTime, Date, String] start_date
+    # @param [DateTime, Date, String] base_date
     # @param [DateTime, Date, String] end_date
-    # @return [Array] List of sleep items for the supplied date range
-    def sleep_on_date_range(start_date, end_date)
-      get("/user/#{@user_id}/sleep/date/#{format_date(start_date)}/#{format_date(end_date)}.json")
+    # @return [Hash]
+    def sleep_on_date_range(base_date, end_date)
+      get("/user/#{@user_id}/sleep/date/#{format_date(base_date)}/#{format_date(end_date)}.json")
     end
 
-    # Get sleep data with pagination support
+    # Get sleep data with pagination support. Note from Fitbit API: Some processing
+    # is asynchronous. If the system is still processing one or more sleep logs that
+    # should be in the response when this API is queried, the response will indicate
+    # a retry duration given in milliseconds. The "meta" response may evolve with additional
+    # fields in the future. API clients should be prepared to ignore any new object
+    # properties they do not recognize.
+    #
+    # @example Here is a sample response to indicate the retry.
+    #   {
+    #     "meta": {
+    #       "retryDuration": 3000,
+    #       "state": "pending"
+    #     }
+    #   }
+    #
+    # @param [Hash] opts
+    # @option opts [DateTime, Date, String] beforeDate
+    # @option opts [DateTime, Date, String] afterDate
+    # @option opts [String] sort
+    # @option opts [Fixnum] limit
+    # @return [Hash]
     def sleep_logs(opts)
-      valid_options = [:beforeDate, :afterDate, :sort, :limit, :offset]
+      valid_options = [:beforeDate, :afterDate, :sort, :limit]
       opts.slice!(*valid_options)
 
       opts[:beforeDate] = format_date(opts[:beforeDate])
       opts[:afterDate] = format_date(opts[:beforeDate])
       query = opts.empty? ? '' : "?#{to_query(opts)}"
+
+      self.api_version = '1.2'
 
       get("/user/#{@user_id}/sleep/list.json#{query}")
     end
