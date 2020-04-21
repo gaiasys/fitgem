@@ -237,12 +237,20 @@ module Fitgem
       get("/user/#{@user_id}/activities/minutesSedentary/#{format_date(base_date)}/#{format_date(end_date)}")
     end
 
+    # Get time series data in the specified range for lightly active minutes
+    # @param [Date, DateTime, String] base_date
+    # @param [Date, DateTime, String] end_date
+    # @return [Hash]
+    def activities_minutes_lightly_active(base_date, end_date)
+      get("/user/#{@user_id}/activities/minutesLightlyActive/#{format_date(base_date)}/#{format_date(end_date)}")
+    end
+
     # Get time series data in the specified range for fairly active minutes
     # @param [Date, DateTime, String] base_date
     # @param [Date, DateTime, String] end_date
     # @return [Hash]
     def activities_minutes_fairly_active(base_date, end_date)
-      get("/user/#{@user_id}/activities/minutesVeryActive/#{format_date(base_date)}/#{format_date(end_date)}")
+      get("/user/#{@user_id}/activities/minutesFairlyActive/#{format_date(base_date)}/#{format_date(end_date)}")
     end
 
     # Get time series data in the specified range for very active minutes
@@ -250,7 +258,7 @@ module Fitgem
     # @param [Date, DateTime, String] end_date
     # @return [Hash]
     def activities_minutes_very_active(base_date, end_date)
-      get("/user/#{@user_id}/activities/minutesFairlyActive/#{format_date(base_date)}/#{format_date(end_date)}")
+      get("/user/#{@user_id}/activities/minutesVeryActive/#{format_date(base_date)}/#{format_date(end_date)}")
     end
 
     # ==========================================
